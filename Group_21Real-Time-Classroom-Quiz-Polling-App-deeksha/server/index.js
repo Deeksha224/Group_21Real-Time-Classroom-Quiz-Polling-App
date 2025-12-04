@@ -117,17 +117,17 @@
                 }
             });
 
-            // Host moves to next question
+           
             socket.on('next_question', ({ sessionCode }, callback) => {
                 try {
                     const session = quizManager.getSession(sessionCode);
                     const currentQuestionIndex = session.currentQuestionIndex;
 
-                    // Get stats for current question
+                    
                     const stats = quizManager.getQuestionStats(sessionCode, currentQuestionIndex);
                     const currentQuestion = session.quiz.questions[currentQuestionIndex];
 
-                    // Send results to everyone
+                   
                     io.to(sessionCode).emit('question_results', {
                         questionIndex: currentQuestionIndex,
                         correctAnswer: currentQuestion.correctAnswer,
