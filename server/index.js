@@ -19,11 +19,11 @@ app.use(express.json());
 const quizManager = new QuizManager();
 const socketToPlayer = new Map(); // socketId -> { sessionCode, playerId }
 
-// Socket.io connection handling
+
 io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
 
-    // Create a new quiz
+   
     socket.on('create_quiz', (quizData, callback) => {
         try {
             const quizId = quizManager.createQuiz(quizData);
@@ -40,7 +40,6 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Player joins a session
     socket.on('join_session', ({ sessionCode, playerName }, callback) => {
         try {
             const { playerId, session } = quizManager.joinSession(sessionCode, playerName, socket.id);
@@ -48,7 +47,7 @@ io.on('connection', (socket) => {
             socket.join(sessionCode);
             socketToPlayer.set(socket.id, { sessionCode, playerId });
 
-            // Notify host and other players
+         
             const players = Array.from(session.players.values()).map(p => ({
                 id: p.id,
                 name: p.name,
